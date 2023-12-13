@@ -8,9 +8,10 @@ from services.marker_service import MarkerService
 marker_controller = Blueprint('marker_controller', __name__)
 marker_service = MarkerService()
 
-@marker_controller.route('/marker', methods=['GET'])
-def get_markers():
-    markers = marker_service.get_markers()
+@marker_controller.route('/get_markers/<string:user_open_id>', methods=['GET'])
+def get_markers(user_open_id):
+    print(user_open_id)
+    markers = marker_service.get_markers(user_open_id)
     return jsonify(markers)
 
 @marker_controller.route('/marker', methods=['POST'])

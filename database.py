@@ -13,6 +13,7 @@ class Marker(Base):
     __tablename__ = 'marker'
 
     id = Column(Integer, primary_key=True , nullable=False)
+    user_open_id = Column(String, nullable=False)
     content = Column(String)
     name = Column(String)
     latitude = Column(Float, nullable=False)

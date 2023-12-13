@@ -6,18 +6,19 @@ from werkzeug.exceptions import BadRequest
 
 class MarkerService:
     # 查询全部标记点
-    def get_markers(self):
+    def get_markers(self, user_open_id):
         with Session() as session:
-            markers = session.query(Marker).all()
+            markers = session.query(Marker).filter(Marker.user_open_id == user_open_id).all()
             return {'result': True, 'data': [marker.to_dict() for marker in markers]}
     
     # 添加新的Marker点
     def create_marker(self, data):
         # 判断必需的字段是否都存在
-        if not all(key in data for key in ('latitude', 'longitude')):
+        if not all(key in data for key in ('latitude', 'longitude', 'user_open_id')):
             raise BadRequest('Missing required data')
 
         marker = Marker(
+            user_open_id=data.get('user_open_id',""),
             content=data.get('content',""),
             name=data.get('name',""),
             latitude=data.get('latitude'),
